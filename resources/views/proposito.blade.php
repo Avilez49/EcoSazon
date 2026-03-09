@@ -20,7 +20,7 @@
                 <div class="col-md-4">
                     <div class="p-3">
                         <div class="text-warning mb-3"><i class="fas fa-eye-slash fa-3x"></i></div>
-                        <h5>Visibilidad Digita</h5>
+                        <h5>Visibilidad Digital</h5>
                         <p class="small text-muted">Damos presencia en línea a cocinas que no tienen redes sociales.</p>
                     </div>
                 </div>
