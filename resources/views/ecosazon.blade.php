@@ -31,7 +31,7 @@
         <p class="text-muted fs-5">Mostrando opciones en Mérida, Yucatán con entrega en Logística Verde 🚲</p>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4" id="contenedor-cards">
         @foreach($cocinas as $cocina)
         <div class="col-md-4">
             <div class="card h-100 card-cocina position-relative">

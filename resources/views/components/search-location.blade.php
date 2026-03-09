@@ -21,10 +21,10 @@
 
     <div class="flex-grow-1 px-4 d-flex align-items-center">
         <i class="fas fa-utensils text-success me-3 fs-5"></i>
-        <input type="text" class="form-control border-0 shadow-none py-3 fs-5" placeholder="¿Qué quieres comer hoy?">
+        <input type="text" id="input-busqueda" class="form-control border-0 shadow-none py-3 fs-5" placeholder="¿Qué quieres comer hoy?">
     </div>
 
-    <button class="btn btn-success rounded-pill px-5 py-3 fw-bold fs-5">
+    <button id="btn-buscar" class="btn btn-success rounded-pill px-5 py-3 fw-bold fs-5">
         <i class="fas fa-search me-2"></i> Buscar
     </button>
 </div>
@@ -33,15 +33,13 @@
     .search-container { border: 1px solid #eee; }
     .search-container select:focus, .search-container input:focus { outline: none; }
     
-    /* Ajustes para dispositivos móviles */
     @media (max-width: 768px) {
         .search-container { 
             flex-direction: column; 
-            border-radius: 25px !important; /* Ligeramente más redondo para compensar el tamaño */
+            border-radius: 25px !important; 
             padding: 20px !important; 
         }
         .search-container .border-end { 
-            border-right: none !important; /* Corregido de border-end a border-right para compatibilidad css pura si es necesario, aunque en BS5 puedes usar clases */
             border-bottom: 1px solid #eee; 
             margin-bottom: 15px; 
             padding-bottom: 10px;
@@ -53,3 +51,21 @@
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnBuscar = document.getElementById('btn-buscar');
+        const inputBusqueda = document.getElementById('input-busqueda');
+
+        if(btnBuscar && inputBusqueda) {
+            btnBuscar.addEventListener('click', function() {
+                const termino = inputBusqueda.value.trim();
+                // Si está en la página principal y busca, lo manda a la vista de cocinas
+                // Cambia '/cocinas' por la ruta real si tu URL es diferente (ej. '/catalogo')
+                if(window.location.pathname !== '/cocinas' && termino !== '') {
+                    window.location.href = '/cocinas?q=' + encodeURIComponent(termino);
+                }
+            });
+        }
+    });
+</script>
