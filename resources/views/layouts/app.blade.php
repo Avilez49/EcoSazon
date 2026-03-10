@@ -224,7 +224,7 @@
     </nav>
 </div>
 
-@if(!Route::is('login') && !Route::is('register'))
+@if(!Route::is('login') && !Route::is('register') && !Route::is('cocina.perfil'))
 <div class="hero">
   <div class="hero-content">
     <h1 class="display-3 fw-bold mb-3">@yield('titulo')</h1>

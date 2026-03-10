@@ -175,6 +175,36 @@
         tipoBusqueda.addEventListener('change', aplicarFiltros);
         selectZona.addEventListener('change', aplicarFiltros);
         selectCalif.addEventListener('change', aplicarFiltros);
+
+        const parametrosURL = new URLSearchParams(window.location.search);
+        const urlBusqueda = parametrosURL.get('q');
+        const urlZona = parametrosURL.get('z');
+        
+        let requiereFiltroInicial = false;
+
+        // Si vino texto en la URL, lo ponemos en el input
+        if (urlBusqueda) {
+            inputBusqueda.value = urlBusqueda;
+            requiereFiltroInicial = true;
+        }
+        
+        // Si vino una zona en la URL, buscamos qué opción coincide y la seleccionamos
+        if (urlZona) {
+            for (let i = 0; i < selectZona.options.length; i++) {
+                if (selectZona.options[i].value.toLowerCase().includes(urlZona.toLowerCase())) {
+                    selectZona.selectedIndex = i;
+                    requiereFiltroInicial = true;
+                    break;
+                }
+            }
+        }
+        
+        // Si detectamos parámetros, ejecutamos el filtro que ya tenías programado
+        if (requiereFiltroInicial) {
+            aplicarFiltros();
+        }
     });
+
+    
 </script>
 @endsection
