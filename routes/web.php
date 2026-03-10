@@ -6,7 +6,8 @@ use App\Http\Controllers\EcoSazonController;
 
 
 Route::get('/', [HomeController::class, 'empresa'])->name('home');
-
+// Ruta dinámica para ver el perfil de una cocina específica
+Route::get('/cocina/{slug}', [EcoSazonController::class, 'perfilCocina'])->name('cocina.perfil');
 // Rutas funcionales para los botones
 Route::get('/menu', [EcoSazonController::class, 'index'])->name('menu.index');
 Route::get('/login', [EcoSazonController::class, 'login'])->name('login');
