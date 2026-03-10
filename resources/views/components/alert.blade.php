@@ -6,3 +6,4 @@
 </div>
 {{-- Podemos definir operadores ternarios en las vistas de blade para manejar valores nulos o no definidos
     Ejemplo: {{$title ?? 'No tiene valor'}} --}}
+    {{-- Esto es una prueba }}
