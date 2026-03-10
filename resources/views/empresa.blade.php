@@ -15,6 +15,21 @@
 @endpush
 
 @section('content')
+
+{{-- DECLARAMOS LA VARIABLE AQUÍ PARA NO TOCAR EL CONTROLADOR --}}
+    @php
+        $categorias = [
+            'Cocinas de Barrio' => [
+                ['nombre' => 'El Rincón de Itzimná', 'zona' => 'Itzimná', 'especialidad' => 'Menú del día'],
+                ['nombre' => 'Sabor a Chuburná', 'zona' => 'Chuburná de Hidalgo', 'especialidad' => 'Comida regional'],
+            ],
+            'Cocinas Especializadas' => [
+                ['nombre' => 'Eco-Sazón Vegano', 'zona' => 'García Ginerés', 'especialidad' => 'Dieta basada en plantas'],
+                ['nombre' => 'Pueblo Maya Fit', 'zona' => 'Caucel', 'especialidad' => 'Bajo en calorías'],
+            ]
+        ];
+    @endphp
+
     {{-- 1. Buscador y Pilares Iniciales --}}
     <div class="container my-5">
         <div class="text-center">
