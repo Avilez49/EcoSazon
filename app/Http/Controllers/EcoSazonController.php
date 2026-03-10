@@ -43,7 +43,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Pueblo Maya Fit',
                 'zona' => 'Caucel',
-                'imagen' => 'Imagenes/paisaje.jpg',
+                'imagen' => 'Imagenes/Yuca1.jpg',
                 'menu_dia' => 'Pollo a la plancha',
                 'precio_completo' => 120.00,
                 'calificacion' => 4.2,
@@ -116,7 +116,7 @@ class EcoSazonController extends Controller
                     'calificacion' => 4.5,
                     'abierto_24h' => false,
                     'precio_promedio' => 80.00,
-                    'imagen' => 'Imagenes/paisaje.jpg'
+                    'imagen' => 'Imagenes/Yuca1.png'
                 ],
                 [
                     'nombre' => 'Sabor a Chuburná', 
@@ -127,7 +127,7 @@ class EcoSazonController extends Controller
                     'calificacion' => 4.8,
                     'abierto_24h' => true,
                     'precio_promedio' => 90.00,
-                    'imagen' => 'Imagenes/Imagen02.jfif'
+                    'imagen' => 'Imagenes/Yuca2.png'
                 ],
                 [
                     'nombre' => 'Fonda Las Margaritas',
@@ -149,7 +149,7 @@ class EcoSazonController extends Controller
                     'calificacion' => 4.6,
                     'abierto_24h' => true,
                     'precio_promedio' => 65.00,
-                    'imagen' => 'Imagenes/Imagen02.jfif'
+                    'imagen' => 'Imagenes/Yuca3.png'
                 ],
             ],
             'Cocinas Especializadas' => [
@@ -173,7 +173,7 @@ class EcoSazonController extends Controller
                     'calificacion' => 3.9,
                     'abierto_24h' => true,
                     'precio_promedio' => 130.00,
-                    'imagen' => 'Imagenes/paisaje.jpg'
+                    'imagen' => 'Imagenes/Yuca4.png'
                 ],
                 [
                     'nombre' => 'Mariscos El Faro',
@@ -195,7 +195,7 @@ class EcoSazonController extends Controller
                     'calificacion' => 4.4,
                     'abierto_24h' => false,
                     'precio_promedio' => 145.00,
-                    'imagen' => 'Imagenes/Veggie2.png'
+                    'imagen' => 'Imagenes/Yuca5.png'
                 ]
             ]
         ];
