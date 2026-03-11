@@ -63,25 +63,46 @@
                 </div>
             </div>
         </div>
-        
         <div class="col-lg-8">
-            <div class="mb-5">
-                <h2 class="fw-bold mb-4" style="color: #E67E22; border-left: 5px solid var(--amarillo); padding-left: 15px;">
+            <div class="mb-4">
+                <h2 class="fw-bold mb-3" style="color: #E67E22; border-left: 5px solid var(--amarillo); padding-left: 15px;">
                     Menú de la casa
                 </h2>
                 <p class="text-muted mb-4 fs-5">Descubre los platillos preparados al momento para ti.</p>
             </div>
+
+            <div class="row g-3 mb-5 bg-light p-3 rounded-4 shadow-sm border-0 align-items-center">
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-success"><i class="fas fa-search"></i></span>
+                        <input type="text" id="input-busqueda-plato" class="form-control border-start-0 shadow-none" placeholder="Buscar un platillo (ej. torta, sopa)...">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold small text-muted mb-1">
+                        Precio Máximo: <span class="text-success ms-1">$<span id="valor-precio-plato">300</span></span>
+                    </label>
+                    <input type="range" class="form-range" min="10" max="300" step="5" id="rango-precio-plato" value="300">
+                </div>
+            </div>
+
+            <div id="mensaje-no-platos" class="text-center my-4" style="display: none;">
+                <p class="text-muted fs-5"><i class="fas fa-search-minus"></i> No hay platillos que coincidan con tu búsqueda o presupuesto.</p>
+            </div>
             
-            <div class="row g-4">
-                @foreach($cocina['menu'] as $item)
-                <div class="col-md-6">
+            <div class="row g-4" id="contenedor-platos">
+                @forelse($cocina->platos as $item)
+                <div class="col-md-6 tarjeta-plato" data-precio="{{ $item->precio }}">
                     <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden" style="transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='none'; this.style.boxShadow='';">
+                        @if($item->imagen)
+                            <img src="{{ asset($item->imagen) }}" class="card-img-top object-fit-cover" style="height: 150px;" alt="{{ $item->nombre }}">
+                        @endif
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-start mb-3">
-                                <h5 class="fw-bold mb-0 text-dark pe-3" style="line-height: 1.3;">{{ $item['platillo'] }}</h5>
-                                <span class="badge bg-success fs-6 rounded-pill px-3 py-2">${{ number_format($item['precio'], 2) }}</span>
+                                <h5 class="fw-bold mb-0 text-dark pe-3 nombre-plato" style="line-height: 1.3;">{{ $item->nombre }}</h5>
+                                <span class="badge bg-success fs-6 rounded-pill px-3 py-2">${{ number_format($item->precio, 2) }}</span>
                             </div>
-                            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.5;">{{ $item['descripcion'] }}</p>
+                            <p class="text-muted small mb-4 flex-grow-1 desc-plato" style="line-height: 1.5;">{{ $item->descripcion }}</p>
                             
                             <button class="btn btn-outline-success w-100 fw-bold rounded-pill mt-auto py-2">
                                 <i class="fas fa-plus-circle me-2"></i> Agregar al pedido
@@ -89,15 +110,69 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div class="col-12 text-center text-muted py-5">
+                    <i class="fas fa-utensils fs-1 mb-3 text-light"></i>
+                    <h5>Esta cocina aún no ha registrado platillos en su menú.</h5>
+                </div>
+                @endforelse
             </div>
             
             <div class="mt-5 pt-3 text-center border-top">
-                <a href="{{ route('home') }}" class="btn btn-light border text-dark fw-bold px-4 py-2 rounded-pill shadow-sm">
-                    <i class="fas fa-arrow-left me-2"></i> Volver al Inicio
+                <a href="{{ route('cocinas.index') }}" class="btn btn-light border text-dark fw-bold px-4 py-2 rounded-pill shadow-sm">
+                    <i class="fas fa-arrow-left me-2"></i> Volver a todas las Cocinas
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputBusqueda = document.getElementById('input-busqueda-plato');
+        const rangoPrecio = document.getElementById('rango-precio-plato');
+        const valorPrecio = document.getElementById('valor-precio-plato');
+        const mensajeNoResultados = document.getElementById('mensaje-no-platos');
+        const tarjetas = document.querySelectorAll('.tarjeta-plato');
+
+        // Actualiza el número de precio visualmente al mover la barra
+        if(rangoPrecio) {
+            rangoPrecio.addEventListener('input', function() {
+                valorPrecio.textContent = this.value;
+                aplicarFiltrosPlatos();
+            });
+        }
+
+        if(inputBusqueda) {
+            inputBusqueda.addEventListener('input', aplicarFiltrosPlatos);
+        }
+
+        function aplicarFiltrosPlatos() {
+            const texto = inputBusqueda.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const maxPrecio = parseFloat(rangoPrecio.value);
+            let coincidencias = 0;
+
+            tarjetas.forEach(tarjeta => {
+                const nombrePlato = tarjeta.querySelector('.nombre-plato').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const descPlato = tarjeta.querySelector('.desc-plato').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const precioPlato = parseFloat(tarjeta.getAttribute('data-precio'));
+
+                const pasaTexto = nombrePlato.includes(texto) || descPlato.includes(texto);
+                const pasaPrecio = precioPlato <= maxPrecio;
+
+                if (pasaTexto && pasaPrecio) {
+                    tarjeta.style.display = 'block';
+                    coincidencias++;
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+
+            // Si hay tarjetas ocultas y coincidencias = 0, mostramos mensaje de error
+            if (tarjetas.length > 0) {
+                mensajeNoResultados.style.display = (coincidencias === 0) ? 'block' : 'none';
+            }
+        }
+    });
+</script>
 @endsection

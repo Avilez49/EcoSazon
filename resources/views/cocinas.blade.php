@@ -69,7 +69,7 @@
                  data-calif="{{ $cocina['calificacion'] }}">
                 
                 <div class="card h-100 border-0 shadow-sm overflow-hidden">
-                    <img src="{{ asset($cocina['imagen']) }}" class="card-img-top" alt="{{ $cocina['nombre'] }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ asset($cocina->imagen_principal) }}" class="card-img-top" alt="{{ $cocina['nombre'] }}" style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="mb-0 item-nombre fw-bold text-dark">{{ $cocina['nombre'] }}</h5>
@@ -98,7 +98,7 @@
                             <span class="text-dark small ms-1 fw-bold">({{ $cocina['calificacion'] }})</span>
                         </div>
                         <div>
-                            <a href="{{ route('menu.index') }}" class="btn text-white w-100 fw-bold" style="background-color: #E67E22;">
+                            <a href="{{ route('cocina.perfil', $cocina->slug) }}" class="btn text-white w-100 fw-bold" style="background-color: #E67E22;">
                                 <i class="fas fa-utensils me-2"></i> Ver Menú
                             </a>
                         </div>
