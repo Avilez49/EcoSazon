@@ -17,7 +17,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Cocina Doña Lupe',
                 'zona' => 'Barrio de Santiago',
-                'imagen' => 'Imagenes/Imagen02.jfif',
+                'imagen' => 'Imagenes/PocC.png',
                 'menu_dia' => 'Poc Chuc con guarnición',
                 'precio_completo' => 85.00,
                 'calificacion' => 4.8,
@@ -26,7 +26,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'La Tía de Pacabtún',
                 'zona' => 'Pacabtún',
-                'imagen' => 'Imagenes/Imagen03.jpg',
+                'imagen' => 'Imagenes/SopaL.png',
                 'menu_dia' => 'Sopa de Lima y Salbutes',
                 'precio_completo' => 75.00,
                 'calificacion' => 4.9,
@@ -35,7 +35,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'El Sazón de San Sebastián',
                 'zona' => 'San Sebastián',
-                'imagen' => 'Imagenes/paisaje.jpg',
+                'imagen' => 'Imagenes/RellenoN.png',
                 'menu_dia' => 'Relleno Negro',
                 'precio_completo' => 95.00,
                 'calificacion' => 3.8,
@@ -44,7 +44,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Pueblo Maya Fit',
                 'zona' => 'Caucel',
-                'imagen' => 'Imagenes/Yuca1.jpg',
+                'imagen' => 'Imagenes/PolloP.png',
                 'menu_dia' => 'Pollo a la plancha',
                 'precio_completo' => 120.00,
                 'calificacion' => 4.2,
@@ -53,7 +53,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'El Rincón de Itzimná',
                 'zona' => 'Itzimná',
-                'imagen' => 'Imagenes/paisaje.jpg',
+                'imagen' => 'Imagenes/CochinitaP.png',
                 'menu_dia' => 'Cochinita Pibil',
                 'precio_completo' => 110.00,
                 'calificacion' => 4.5,
@@ -62,7 +62,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Fonda Las Margaritas',
                 'zona' => 'Francisco de Montejo',
-                'imagen' => 'Imagenes/Imagen03.jpg',
+                'imagen' => 'Imagenes/PechugaE.png',
                 'menu_dia' => 'Pechuga Empanizada',
                 'precio_completo' => 70.00,
                 'calificacion' => 4.0,
@@ -71,7 +71,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Mariscos El Faro',
                 'zona' => 'Progreso (Norte)',
-                'imagen' => 'Imagenes/Marisco1.png',
+                'imagen' => 'Imagenes/CevicheM.png',
                 'menu_dia' => 'Ceviche Mixto',
                 'precio_completo' => 150.00,
                 'calificacion' => 4.7,
@@ -80,7 +80,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Eco-Sazón Vegano',
                 'zona' => 'García Ginerés',
-                'imagen' => 'Imagenes/Veggie1.png',
+                'imagen' => 'Imagenes/HamburguesaL.png',
                 'menu_dia' => 'Hamburguesa de Lentejas',
                 'precio_completo' => 95.00,
                 'calificacion' => 4.9,
@@ -89,7 +89,7 @@ class EcoSazonController extends Controller
             [
                 'nombre' => 'Antojitos La Mestiza',
                 'zona' => 'Centro',
-                'imagen' => 'Imagenes/Imagen02.jfif',
+                'imagen' => 'Imagenes/PanuchosP.png',
                 'menu_dia' => 'Panuchos de Pavo',
                 'precio_completo' => 65.00,
                 'calificacion' => 4.6,
