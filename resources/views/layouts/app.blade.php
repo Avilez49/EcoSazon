@@ -164,9 +164,17 @@
       transition: transform 0.2s;
     }
 
-    .btn-orange:hover, .btn-green:hover {
+    /* ESTILOS MODIFICADOS PARA EVITAR QUE DESAPAREZCAN AL PASAR EL RATÓN */
+    .btn-orange:hover {
         transform: translateY(-2px);
-        color: white;
+        color: white !important;
+        background-color: #E67E22 !important; /* Mantiene un naranja ligeramente más oscuro */
+    }
+
+    .btn-green:hover {
+        transform: translateY(-2px);
+        color: white !important; 
+        background-color: #1E8449 !important; /* Mantiene un verde ligeramente más oscuro */
     }
     
     /* Footer links */
@@ -224,7 +232,7 @@
     </nav>
 </div>
 
-@if(!Route::is('login') && !Route::is('register'))
+@if(!Route::is('login') && !Route::is('register') && !Route::is('cocina.perfil'))
 <div class="hero">
   <div class="hero-content">
     <h1 class="display-3 fw-bold mb-3">@yield('titulo')</h1>

@@ -1,80 +1,93 @@
 @extends('layouts.app')
 
-@section('titulopagina', 'Menú del Día - EcoSazón Mérida')
-
-@section('titulo', 'Sabores de Mérida hoy')
-@section('subtitulo', 'Digitalizamos las cocinas de barrio para llevar el sazón regional a tu mesa de forma sostenible.')
-
-@section('Autor', 'Equipo EcoSazón')
-@section('actividad', 'Propuesta de E-Commerce')
+@section('titulopagina', 'Menú del Día - EcoSazón')
+@section('titulo', 'Menú del Día')
+@section('subtitulo', 'Explora y filtra los platillos preparados al momento en nuestra red.')
 
 @section('content')
-<style>
-    .card-cocina {
-        border: none;
-        border-radius: 15px;
-        overflow: hidden;
-        transition: transform 0.3s;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .card-cocina:hover { transform: translateY(-5px); }
-    .badge-calif { background: var(--amarillo); color: #000; }
-    .btn-order { background: var(--verde); color: white; border-radius: 20px; }
-    .price-tag { color: var(--verde); font-weight: bold; font-size: 1.3rem; }
-    .section-title { color: #E67E22; border-bottom: 2px solid #F1C40F; display: inline-block; }
-    .roof-icon { margin-bottom: -10px; text-align: center; }
-</style>
-
 <div class="container my-5">
-    <div class="text-center mb-5">
-        <h2 class="section-title pb-2 fw-bold">Menús Disponibles en tu Zona</h2>
-        <p class="text-muted fs-5">Mostrando opciones en Mérida, Yucatán con entrega en Logística Verde 🚲</p>
+
+    <div class="card p-4 mb-5 shadow border-0 filter-panel" style="position: sticky; top: 20px; z-index: 1020; border-top: 4px solid #E67E22 !important;">
+        <h5 class="fw-bold mb-4 text-dark border-bottom pb-2">
+            <i class="fas fa-search me-2" style="color: #E67E22;"></i> Panel de Búsqueda y Filtros
+        </h5>
+
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="input-group shadow-sm">
+                    <select class="form-select bg-light" id="tipo-busqueda" style="max-width: 180px;">
+                        <option value="todos">Buscar en Todo</option>
+                        <option value="platillo">Por Platillo</option>
+                        <option value="cocina">Por Cocina</option>
+                    </select>
+                    <input type="text" id="input-busqueda" class="form-control" placeholder="Ej. poc chuc, lima, etc...">
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4 mt-3">
+                <label class="form-label fw-bold small text-muted d-flex justify-content-between">
+                    <span>Precio Máximo:</span>
+                    <span class="text-success fs-6">$<span id="valor-precio">200</span></span>
+                </label>
+                <input type="range" class="form-range" min="0" max="200" step="5" id="rango-precio" value="200">
+            </div>
+
+            <div class="col-12 col-md-4 mt-3">
+                <label class="form-label fw-bold small text-muted">Colonia / Zona</label>
+                <select class="form-select shadow-sm" id="select-zona">
+                    <option value="todas">Todas las zonas</option>
+                    @foreach($zonas as $zona)
+                        <option value="{{ $zona }}">{{ $zona }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4 mt-3">
+                <label class="form-label fw-bold small text-muted">Calificación Mínima</label>
+                <select class="form-select shadow-sm" id="select-calificacion">
+                    <option value="0">Cualquier calificación</option>
+                    <option value="4.5">Excelente (4.5 o más)</option>
+                    <option value="4.0">Muy Buena (4.0 o más)</option>
+                    <option value="3.5">Buena (3.5 o más)</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-4" id="contenedor-cards">
+    <div id="mensaje-no-resultados" class="text-center my-5" style="display: none;">
+        <h4 class="text-danger fw-bold"><i class="fas fa-search-minus"></i> No encontramos nada con esos filtros.</h4>
+        <p class="text-muted fs-5">Intenta ampliar tu rango de precio o cambiar la zona.</p>
+    </div>
+
+    <div class="row g-4 contenedor-padre">
         @foreach($cocinas as $cocina)
-        <div class="col-md-4">
-            <div class="card h-100 card-cocina position-relative">
-                
-                {{-- Fondo/Platillo --}}
-                <div class="position-relative">
-                    <img src="{{ asset($cocina['imagen']) }}" class="card-img-top" style="height: 220px; object-fit: cover;" alt="{{ $cocina['nombre'] }}">
-                    
-                    {{-- Espacio para imagen de la fachada --}}
-                    <div class="position-absolute shadow-sm border border-3 border-white bg-light" 
-                         style="bottom: -35px; left: 20px; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; z-index: 2;">
-                        <img src="https://via.placeholder.com/80?text=Fachada" class="w-100 h-100" style="object-fit: cover;" alt="Fachada de la cocina">
+        <div class="col-12 col-md-6 col-lg-4 tarjeta-filtro" 
+             data-precio="{{ $cocina['precio_completo'] }}" 
+             data-zona="{{ $cocina['zona'] }}" 
+             data-calif="{{ $cocina['calificacion'] }}">
+            
+            <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                <img src="{{ asset($cocina['imagen']) }}" class="card-img-top" alt="{{ $cocina['menu_dia'] }}" style="height: 220px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h4 class="mb-1 item-platillo fw-bold text-dark">{{ $cocina['menu_dia'] }}</h4>
+                    <p class="mb-3 text-muted small item-cocina">
+                        <i class="fas fa-store text-success me-1"></i> {{ $cocina['nombre'] }} | 
+                        <i class="fas fa-map-marker-alt text-danger ms-1"></i> {{ $cocina['zona'] }}
+                    </p>
+                    <p class="card-text text-secondary mb-3" style="font-size: 0.95rem;">
+                        {{ $cocina['descripcion'] }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mb-4 mt-auto">
+                        <div class="text-warning small">
+                            <i class="fas fa-star"></i> <span class="text-dark fw-bold">{{ $cocina['calificacion'] }}</span>
+                        </div>
+                        <h5 class="fw-bold text-success mb-0">${{ number_format($cocina['precio_completo'], 2) }} MXN</h5>
                     </div>
-                </div>
-
-                <div class="card-body pt-5">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge badge-calif ms-auto fs-6"><i class="fas fa-star text-dark"></i> {{ $cocina['calificacion'] }}</span>
+                    <div>
+                        <a href="#" class="btn btn-outline-success w-100 fw-bold">
+                            <i class="fas fa-shopping-cart me-2"></i> Ordenar ahora
+                        </a>
                     </div>
-
-                    {{-- Techo sobre el nombre --}}
-                    <div class="roof-icon">
-                        <svg width="45" height="18" viewBox="0 0 40 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 13 L20 2 L38 13" stroke="#27AE60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-
-                    <h4 class="card-title fw-bold text-center mb-3">{{ $cocina['nombre'] }}</h4>
-                    
-                    <p class="text-primary mb-2 fs-5"><i class="fas fa-utensils me-1"></i> {{ $cocina['menu_dia'] }}</p>
-                    <p class="card-text text-muted">{{ $cocina['descripcion'] }}</p>
-                    
-                    <div class="mt-4 p-3 bg-light rounded">
-                        <label class="form-label fw-bold">Personaliza tu ración</label>
-                        <select class="form-select" onchange="updatePrice(this, {{ $cocina['precio_completo'] }})">
-                            <option value="1">Ración Completa - ${{ number_format($cocina['precio_completo'], 2) }}</option>
-                            <option value="0.6">Media Ración - ${{ number_format($cocina['precio_completo'] * 0.6, 2) }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center pb-4 px-4">
-                    <span class="price-tag">$<span class="val">{{ number_format($cocina['precio_completo'], 2) }}</span></span>
-                    <button class="btn btn-order px-4 shadow-sm fs-5" onclick="alert('Pedido agregado al carrito')">Pedir Ahora</button>
                 </div>
             </div>
         </div>
@@ -83,11 +96,97 @@
 </div>
 
 <script>
-    function updatePrice(select, basePrice) {
-        const factor = parseFloat(select.value);
-        const priceDisplay = select.closest('.card-body').nextElementSibling.querySelector('.val');
-        const newPrice = (basePrice * factor).toFixed(2);
-        priceDisplay.innerText = newPrice;
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputBusqueda = document.getElementById('input-busqueda');
+        const tipoBusqueda = document.getElementById('tipo-busqueda');
+        const rangoPrecio = document.getElementById('rango-precio');
+        const valorPrecio = document.getElementById('valor-precio');
+        const selectZona = document.getElementById('select-zona');
+        const selectCalif = document.getElementById('select-calificacion');
+        const mensajeNoResultados = document.getElementById('mensaje-no-resultados');
+        const tarjetas = document.querySelectorAll('.tarjeta-filtro');
+
+        // Actualizar visualmente el número del precio al arrastrar
+        rangoPrecio.addEventListener('input', function() {
+            valorPrecio.textContent = this.value;
+            aplicarFiltros();
+        });
+
+        function aplicarFiltros() {
+            // Valores actuales de todos los filtros
+            const texto = inputBusqueda.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const tipo = tipoBusqueda.value;
+            const maxPrecio = parseFloat(rangoPrecio.value);
+            const zona = selectZona.value;
+            const califMin = parseFloat(selectCalif.value);
+            
+            let coincidencias = 0;
+
+            tarjetas.forEach(tarjeta => {
+                // Atributos de la tarjeta
+                const valPrecio = parseFloat(tarjeta.getAttribute('data-precio'));
+                const valZona = tarjeta.getAttribute('data-zona');
+                const valCalif = parseFloat(tarjeta.getAttribute('data-calif'));
+                const txtPlatillo = tarjeta.querySelector('.item-platillo').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const txtCocina = tarjeta.querySelector('.item-cocina').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                // Validación 1: Texto
+                let pasaTexto = false;
+                if (tipo === 'todos') pasaTexto = txtPlatillo.includes(texto) || txtCocina.includes(texto);
+                else if (tipo === 'platillo') pasaTexto = txtPlatillo.includes(texto);
+                else if (tipo === 'cocina') pasaTexto = txtCocina.includes(texto);
+
+                // Validación 2, 3 y 4: Precio, Zona y Calificación
+                let pasaPrecio = valPrecio <= maxPrecio;
+                let pasaZona = (zona === 'todas' || valZona === zona);
+                let pasaCalif = valCalif >= califMin;
+
+                // Si cumple TODOS los filtros simultáneamente, se muestra
+                if (pasaTexto && pasaPrecio && pasaZona && pasaCalif) {
+                    tarjeta.style.display = 'block';
+                    coincidencias++;
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+
+            mensajeNoResultados.style.display = (coincidencias === 0) ? 'block' : 'none';
+        }
+
+        // Asignar los eventos
+        inputBusqueda.addEventListener('input', aplicarFiltros);
+        tipoBusqueda.addEventListener('change', aplicarFiltros);
+        selectZona.addEventListener('change', aplicarFiltros);
+        selectCalif.addEventListener('change', aplicarFiltros);
+
+        // --- CÓDIGO NUEVO PARA RECIBIR LA BÚSQUEDA DEL INICIO EN LOS MENÚS ---
+        const parametrosURL = new URLSearchParams(window.location.search);
+        const urlBusqueda = parametrosURL.get('q');
+        const urlZona = parametrosURL.get('z');
+        
+        let requiereFiltroInicial = false;
+
+        // Si vino texto en la URL, lo ponemos en el input de búsqueda de platillos
+        if (urlBusqueda) {
+            inputBusqueda.value = urlBusqueda;
+            requiereFiltroInicial = true;
+        }
+        
+        // Si vino una zona en la URL, seleccionamos esa colonia en el menú desplegable
+        if (urlZona) {
+            for (let i = 0; i < selectZona.options.length; i++) {
+                if (selectZona.options[i].value.toLowerCase().includes(urlZona.toLowerCase())) {
+                    selectZona.selectedIndex = i;
+                    requiereFiltroInicial = true;
+                    break;
+                }
+            }
+        }
+        
+        // Si detectamos parámetros, ejecutamos la función de filtros para mostrar resultados
+        if (requiereFiltroInicial) {
+            aplicarFiltros();
+        }
+    });
 </script>
 @endsection
