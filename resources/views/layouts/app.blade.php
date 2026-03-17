@@ -164,9 +164,17 @@
       transition: transform 0.2s;
     }
 
-    .btn-orange:hover, .btn-green:hover {
+    /* ESTILOS MODIFICADOS PARA EVITAR QUE DESAPAREZCAN AL PASAR EL RATÓN */
+    .btn-orange:hover {
         transform: translateY(-2px);
-        color: white;
+        color: white !important;
+        background-color: #E67E22 !important; /* Mantiene un naranja ligeramente más oscuro */
+    }
+
+    .btn-green:hover {
+        transform: translateY(-2px);
+        color: white !important; 
+        background-color: #1E8449 !important; /* Mantiene un verde ligeramente más oscuro */
     }
     
     /* Footer links */
