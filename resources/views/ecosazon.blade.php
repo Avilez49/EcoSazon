@@ -7,13 +7,15 @@
 @section('content')
 <div class="container my-5">
 
-    <div class="card p-4 mb-5 shadow-sm border-0 bg-light rounded-4">
-        <h5 class="fw-bold mb-3 text-secondary"><i class="fas fa-sliders-h me-2"></i> Panel de Búsqueda y Filtros</h5>
-        
+    <div class="card p-4 mb-5 shadow border-0 filter-panel" style="position: sticky; top: 20px; z-index: 1020; border-top: 4px solid #E67E22 !important;">
+        <h5 class="fw-bold mb-4 text-dark border-bottom pb-2">
+            <i class="fas fa-search me-2" style="color: #E67E22;"></i> Panel de Búsqueda y Filtros
+        </h5>
+
         <div class="row g-3">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <select class="form-select bg-white text-dark" id="tipo-busqueda" style="max-width: 200px;">
+            <div class="col-12">
+                <div class="input-group shadow-sm">
+                    <select class="form-select bg-light" id="tipo-busqueda" style="max-width: 180px;">
                         <option value="todos">Buscar en Todo</option>
                         <option value="platillo">Por Platillo</option>
                         <option value="cocina">Por Cocina</option>
@@ -22,16 +24,17 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mt-4">
-                <label class="form-label fw-bold small text-muted">
-                    Precio Máximo: <span class="text-success fs-5 ms-1">$<span id="valor-precio">200</span></span>
+            <div class="col-12 col-md-4 mt-3">
+                <label class="form-label fw-bold small text-muted d-flex justify-content-between">
+                    <span>Precio Máximo:</span>
+                    <span class="text-success fs-6">$<span id="valor-precio">200</span></span>
                 </label>
-                <input type="range" class="form-range" min="50" max="200" step="5" id="rango-precio" value="200">
+                <input type="range" class="form-range" min="0" max="200" step="5" id="rango-precio" value="200">
             </div>
 
-            <div class="col-md-4 mt-4">
+            <div class="col-12 col-md-4 mt-3">
                 <label class="form-label fw-bold small text-muted">Colonia / Zona</label>
-                <select class="form-select" id="select-zona">
+                <select class="form-select shadow-sm" id="select-zona">
                     <option value="todas">Todas las zonas</option>
                     @foreach($zonas as $zona)
                         <option value="{{ $zona }}">{{ $zona }}</option>
@@ -39,13 +42,13 @@
                 </select>
             </div>
 
-            <div class="col-md-4 mt-4">
+            <div class="col-12 col-md-4 mt-3">
                 <label class="form-label fw-bold small text-muted">Calificación Mínima</label>
-                <select class="form-select" id="select-calificacion">
+                <select class="form-select shadow-sm" id="select-calificacion">
                     <option value="0">Cualquier calificación</option>
-                    <option value="4.5">Excelente (4.5 <i class="fas fa-star text-warning"></i> o más)</option>
-                    <option value="4.0">Muy Buena (4.0 <i class="fas fa-star text-warning"></i> o más)</option>
-                    <option value="3.5">Buena (3.5 <i class="fas fa-star text-warning"></i> o más)</option>
+                    <option value="4.5">Excelente (4.5 o más)</option>
+                    <option value="4.0">Muy Buena (4.0 o más)</option>
+                    <option value="3.5">Buena (3.5 o más)</option>
                 </select>
             </div>
         </div>

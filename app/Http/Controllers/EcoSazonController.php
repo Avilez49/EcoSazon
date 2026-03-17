@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Cocina;
 use App\Models\Plato;  
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EcoSazonController extends Controller
 {
@@ -166,4 +167,28 @@ class EcoSazonController extends Controller
         return view('perfil-cocina', compact('cocina'));
     }
 
+    /**
+     *Función para guardar nuevas cocinas evitando duplicados
+     */
+    public function store(Request $request)
+    {
+        // Validamos que el nombre no se duplique en la base de datos (unique:cocinas,nombre)
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:cocinas,nombre',
+            'zona'   => 'required|string|max:255',
+            'categoria' => 'nullable|string|max:255',
+        ], [
+            'nombre.unique' => 'Error: Esta cocina económica ya está registrada en la base de datos.',
+        ]);
+
+        // Si pasa la validación, guardamos
+        $cocina = new Cocina();
+        $cocina->nombre = $request->nombre;
+        $cocina->slug = Str::slug($request->nombre); // Generamos el slug automáticamente
+        $cocina->zona = $request->zona;
+        $cocina->categoria = $request->categoria;
+        $cocina->save();
+
+        return redirect()->back()->with('success', 'Cocina agregada correctamente sin duplicar.');
+    }
 }

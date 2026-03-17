@@ -66,7 +66,7 @@
         <div class="col-lg-8">
             <div class="mb-4">
                 <h2 class="fw-bold mb-3" style="color: #E67E22; border-left: 5px solid var(--amarillo); padding-left: 15px;">
-                    Menú de la casa
+                    Menú de {{ $cocina['nombre'] }}
                 </h2>
                 <p class="text-muted mb-4 fs-5">Descubre los platillos preparados al momento para ti.</p>
             </div>
@@ -79,13 +79,14 @@
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <label class="form-label fw-bold small text-muted mb-1">
-                        Precio Máximo: <span class="text-success ms-1">$<span id="valor-precio-plato">300</span></span>
+                    <label class="form-label fw-bold small text-muted mb-1 d-flex justify-content-between">
+                        <span>Precio Máximo:</span> 
+                        <span class="text-success ms-1">$<span id="valor-precio-plato">300</span></span>
                     </label>
-                    <input type="range" class="form-range" min="10" max="300" step="5" id="rango-precio-plato" value="300">
+                    <input type="range" class="form-range" min="0" max="300" step="5" id="rango-precio-plato" value="300">
                 </div>
             </div>
-
+            
             <div id="mensaje-no-platos" class="text-center my-4" style="display: none;">
                 <p class="text-muted fs-5"><i class="fas fa-search-minus"></i> No hay platillos que coincidan con tu búsqueda o presupuesto.</p>
             </div>

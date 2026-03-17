@@ -7,45 +7,117 @@
 @section('content')
 <div class="container my-5">
 
-    <div class="card p-4 mb-5 shadow-sm border-0 bg-light rounded-4">
-        <h5 class="fw-bold mb-3 text-secondary"><i class="fas fa-filter me-2"></i> Encuentra tu Cocina Ideal</h5>
-        
-        <div class="row g-3">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <select class="form-select bg-white text-dark" id="tipo-busqueda" style="max-width: 200px;">
-                        <option value="todos">Buscar en Todo</option>
-                        <option value="nombre">Por Nombre</option>
-                        <option value="categoria">Por Categoría</option>
-                    </select>
-                    <input type="text" id="input-busqueda" class="form-control" placeholder="Ej. rincón, barrio...">
+    <style>
+    /* Contenedor principal del filtro */
+    .filtros-llamativos {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border-radius: 20px;
+        border-left: 8px solid #E67E22; 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        padding: 30px;
+        transition: all 0.3s ease;
+
+        position: sticky;
+        top: 20px;
+        z-index: 1020;
+    }
+
+    /* Efecto al pasar el mouse por el contenedor */
+    .filtros-llamativos:hover {
+        box-shadow: 0 20px 40px rgba(230, 126, 34, 0.15);
+    }
+
+    /* Estilo para los títulos de los filtros */
+    .filtro-label {
+        color: #4a4a4a;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    /* Inputs y Selects más modernos */
+    .input-premium {
+        border: 2px solid #eee !important;
+        border-radius: 12px !important;
+        padding: 12px 15px !important;
+        background-color: #fff !important;
+        transition: all 0.3s !important;
+    }
+
+    .input-premium:focus {
+        border-color: #E67E22 !important;
+        background-color: #fff !important;
+        transform: translateY(-2px);
+    }
+
+    /* El buscador principal con un estilo más grande */
+    .search-group-premium {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Iconos con pulso naranja */
+    .icono-naranja {
+        color: #E67E22;
+        background: rgba(230, 126, 34, 0.1);
+        padding: 8px;
+        border-radius: 50%;
+    }
+</style>
+
+   <div class="filtros-llamativos mb-5">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-search-location fa-2x icono-naranja me-3"></i>
+        <div>
+            <h4 class="fw-black mb-0" style="color: #2c3e50; letter-spacing: -1px;">ENCUENTRA TU SABOR</h4>
+            <p class="text-muted small mb-0">Personaliza tu búsqueda para encontrar la cocina perfecta</p>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-12 col-lg-5">
+            <span class="filtro-label">¿Qué se te antoja hoy?</span>
+            <div class="input-group search-group-premium">
+                <select class="form-select border-0 bg-light" id="tipo-busqueda" style="max-width: 130px; font-weight: 600;">
+                    <option value="todos">🔍 Todo</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="categoria">Categoría</option>
+                </select>
+                <input type="text" id="input-busqueda" class="form-control border-0" placeholder="Ej: La mejor cochinita...">
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+            <span class="filtro-label">Presupuesto Máximo</span>
+            <div class="px-2">
+                <input type="range" class="form-range" min="0" max="200" step="5" id="rango-precio" value="200">
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold text-muted small">$0</span>
+                    <span class="badge bg-success fs-6">$<span id="valor-precio">200</span></span>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4 mt-4">
-                <label class="form-label fw-bold small text-muted">
-                    Precio Promedio Máximo: <span class="text-success fs-5 ms-1">$<span id="valor-precio">200</span></span>
-                </label>
-                <input type="range" class="form-range" min="50" max="200" step="5" id="rango-precio" value="200">
-            </div>
+        <div class="col-12 col-md-4 col-lg-2">
+            <span class="filtro-label">Zona</span>
+            <select class="form-select input-premium" id="select-zona">
+                <option value="todas">📍 Todas</option>
+                @foreach($zonas as $zona)
+                    <option value="{{ $zona }}">{{ $zona }}</option>
+                @endforeach
+            </select>
+        </div>
 
-            <div class="col-md-4 mt-4">
-                <label class="form-label fw-bold small text-muted">Ubicación</label>
-                <select class="form-select" id="select-zona">
-                    <option value="todas">Todas las zonas</option>
-                    @foreach($zonas as $zona)
-                        <option value="{{ $zona }}">{{ $zona }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-md-4 mt-4">
-                <label class="form-label fw-bold small text-muted">Calificación de la Cocina</label>
-                <select class="form-select" id="select-calificacion">
-                    <option value="0">Cualquier calificación</option>
-                    <option value="4.5">Excelente (4.5 o más)</option>
-                    <option value="4.0">Muy Buena (4.0 o más)</option>
-                    <option value="3.5">Buena (3.5 o más)</option>
+            <div class="col-12 col-md-4 col-lg-2">
+                <span class="filtro-label">Popularidad</span>
+                <select class="form-select input-premium" id="select-calificacion">
+                    <option value="0">⭐ Todas</option>
+                    <option value="4.5">4.5+ Excelente</option>
+                    <option value="4.0">4.0+ Muy Buena</option>
                 </select>
             </div>
         </div>
