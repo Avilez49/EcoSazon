@@ -17,4 +17,5 @@ class Cocina extends Model
     {
         return $this->hasMany(Plato::class);
     }
+    //Hola estos son cambios de prueba
 }
